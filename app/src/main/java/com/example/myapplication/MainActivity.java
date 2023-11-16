@@ -2,13 +2,25 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements Handler.Callback {
+
+    List<Libro> libros = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +31,47 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
         ThreadConnection tc = new ThreadConnection(handler, "https://gutendex.com/books/");
         tc.start();
+
     }
 
     @Override
     public boolean handleMessage(@NonNull Message message) {
-        TextView tv = this.findViewById(R.id.tvApi);
-        tv.setText(message.obj.toString());
+
+        JSONObject json;
+        try {
+
+            json = new JSONObject(message.obj.toString());
+
+            JSONArray jsonArray = json.getJSONArray("results");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+
+                Libro nuevoLibro = new Libro();
+
+                nuevoLibro.setTitulo(obj.getString("title"));
+
+                JSONArray authorsJson = obj.getJSONArray("authors");
+
+                JSONObject author = authorsJson.getJSONObject(0);
+
+                nuevoLibro.setAutor(author.getString("name"));
+
+                Log.d("Libro", nuevoLibro.toString());
+
+                this.libros.add(nuevoLibro);
+            }
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        AdapterLibro adapterLibro = new AdapterLibro(this.libros);
+        RecyclerView rv = findViewById(R.id.rvLibro);
+        rv.setAdapter(adapterLibro);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rv.setLayoutManager(llm);
 
         return false;
     }

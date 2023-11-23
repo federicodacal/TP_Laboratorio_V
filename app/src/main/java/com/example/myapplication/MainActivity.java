@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.profile) {
             Log.d("Click", "Perfil");
+
+            Intent intent = new Intent(this, ComentarioActivity.class);
+
+            this.startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
     }

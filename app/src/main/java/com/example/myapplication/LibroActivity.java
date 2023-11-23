@@ -17,6 +17,6 @@ public class LibroActivity extends AppCompatActivity {
         Bundle bundle = super.getIntent().getExtras();
         Serializable ser = bundle.getSerializable("Libro");
         Libro libro = (Libro) ser;
-        Log.d("Libro Activity", libro.toString());
+        Log.d("LibroActivity", libro.toString());
     }
 }

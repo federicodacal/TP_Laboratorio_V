@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -31,7 +34,20 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
         ThreadConnection tc = new ThreadConnection(handler, "https://gutendex.com/books/");
         tc.start();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.profile) {
+            Log.d("Click", "Perfil");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

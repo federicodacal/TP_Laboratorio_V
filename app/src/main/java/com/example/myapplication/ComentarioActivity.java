@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +29,10 @@ public class ComentarioActivity extends AppCompatActivity {
 
         this.listComentarios = this.loadDataFromSharedPreferences();
 
+        ActionBar ab = super.getSupportActionBar();
+        ab.setTitle("Perfil");
+        ab.setDisplayHomeAsUpEnabled(true);
+
         AdapterComentario adapterComentario = new AdapterComentario(listComentarios);
         RecyclerView rv = findViewById(R.id.rvComentario);
         rv.setAdapter(adapterComentario);
@@ -44,4 +51,11 @@ public class ComentarioActivity extends AppCompatActivity {
         return gson.fromJson(json, type);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            super.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

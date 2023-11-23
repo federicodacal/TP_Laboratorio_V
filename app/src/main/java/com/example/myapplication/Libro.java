@@ -7,15 +7,8 @@ public class Libro implements Serializable {
     private Long id;
     private String titulo;
     private String autor;
-
-    private Long descargas;
-
     private String urlImg;
-
-    public Libro(String titulo, String autor) {
-        this.titulo = titulo;
-        this.autor = autor;
-    }
+    private Comentario comentario;
 
     public Libro() { }
 
@@ -43,14 +36,6 @@ public class Libro implements Serializable {
         this.id = id;
     }
 
-    public Long getDescargas() {
-        return descargas;
-    }
-
-    public void setDescargas(Long descargas) {
-        this.descargas = descargas;
-    }
-
     public String getUrlImg() {
         return urlImg;
     }
@@ -59,13 +44,20 @@ public class Libro implements Serializable {
         this.urlImg = urlImg;
     }
 
+    public Comentario getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(Comentario comentario) {
+        this.comentario = comentario;
+    }
+
     @Override
     public String toString() {
         return "Libro{" +
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", autor='" + autor + '\'' +
-                ", descargas=" + descargas +
                 ", urlImg='" + urlImg + '\'' +
                 '}';
     }

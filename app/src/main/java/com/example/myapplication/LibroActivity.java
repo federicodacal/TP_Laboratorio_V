@@ -12,6 +12,8 @@ import java.io.Serializable;
 
 public class LibroActivity extends AppCompatActivity {
 
+    public static Libro libroSeleccionado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,12 +21,18 @@ public class LibroActivity extends AppCompatActivity {
 
         Bundle bundle = super.getIntent().getExtras();
         Serializable ser = bundle.getSerializable("Libro");
-        Libro libro = (Libro) ser;
-        Log.d("LibroActivity", libro.toString());
+        libroSeleccionado = (Libro) ser;
+        Log.d("LibroActivity", libroSeleccionado.toString());
 
         ActionBar ab = super.getSupportActionBar();
-        ab.setTitle(libro.getTitulo());
+        ab.setTitle(libroSeleccionado.getTitulo());
         ab.setDisplayHomeAsUpEnabled(true);
+
+        Libro model = new Libro();
+        LibroView view = new LibroView(this, model);
+        LibroController controller = new LibroController(view, model);
+        view.setController(controller);
+
     }
 
     @Override

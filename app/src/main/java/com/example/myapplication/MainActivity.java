@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
                 nuevoLibro.setTitulo(obj.getString("title"));
                 nuevoLibro.setId(obj.getLong("id"));
-                nuevoLibro.setDescargas(obj.getLong("download_count"));
 
                 JSONObject formats = (obj.getJSONObject("formats"));
                 nuevoLibro.setUrlImg(formats.getString("image/jpeg"));

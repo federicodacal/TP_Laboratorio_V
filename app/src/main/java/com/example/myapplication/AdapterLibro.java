@@ -14,13 +14,18 @@ public class AdapterLibro extends RecyclerView.Adapter<ViewHolderLibro> {
 
     List<Libro> libros;
 
-    public AdapterLibro(List<Libro> libros) { this.libros = libros; }
+    MainActivity activity;
+
+    public AdapterLibro(List<Libro> libros, MainActivity activity) {
+        this.libros = libros;
+        this.activity = activity;
+    }
 
     @NonNull
     @Override
     public ViewHolderLibro onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_libro, parent, false);
-        return new ViewHolderLibro(view);
+        return new ViewHolderLibro(view, this.activity);
     }
 
     @Override

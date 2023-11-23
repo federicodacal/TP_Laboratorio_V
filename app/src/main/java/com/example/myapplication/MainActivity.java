@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Handler.Callback {
 
-    List<Libro> libros = new ArrayList<>();
+    List<Libro> libros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
     public boolean handleMessage(@NonNull Message message) {
 
         JSONObject json;
+
+        this.libros = new ArrayList<>();
+
         try {
 
             json = new JSONObject(message.obj.toString());
@@ -50,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
                 Libro nuevoLibro = new Libro();
 
                 nuevoLibro.setTitulo(obj.getString("title"));
+                nuevoLibro.setId(obj.getLong("id"));
+                nuevoLibro.setDescargas(obj.getLong("download_count"));
+
+                JSONObject formats = (obj.getJSONObject("formats"));
+                nuevoLibro.setUrlImg(formats.getString("image/jpeg"));
 
                 JSONArray authorsJson = obj.getJSONArray("authors");
 
@@ -66,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
             throw new RuntimeException(e);
         }
 
-        AdapterLibro adapterLibro = new AdapterLibro(this.libros);
+        AdapterLibro adapterLibro = new AdapterLibro(this.libros, this);
         RecyclerView rv = findViewById(R.id.rvLibro);
         rv.setAdapter(adapterLibro);
 

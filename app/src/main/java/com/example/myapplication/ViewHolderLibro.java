@@ -8,35 +8,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class ViewHolderLibro extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     TextView tvTitulo;
     TextView tvAutor;
+    AdapterLibro adapterLibro;
 
-    MainActivity mainActivity;
-
-    public ViewHolderLibro(@NonNull View itemView, MainActivity mainActivity) {
+    public ViewHolderLibro(@NonNull View itemView, AdapterLibro adapterLibro) {
         super(itemView);
         itemView.setOnClickListener(this);
         this.tvTitulo = this.itemView.findViewById(R.id.tvTitulo);
         this.tvAutor = this.itemView.findViewById(R.id.tvAutor);
-        this.mainActivity = mainActivity;
+        this.adapterLibro = adapterLibro;
     }
 
     @Override
     public void onClick(View view) {
 
-        int position = super.getAbsoluteAdapterPosition();
+        int position = getAdapterPosition();
 
         Log.d("Click", "Click " + position);
 
-        Intent i = new Intent(view.getContext(), LibroActivity.class);
+        if (position != RecyclerView.NO_POSITION) {
+            Libro clickedLibro = adapterLibro.getFilteredLibro(position);
+            Log.d("Click", "Click " + position + " - " + clickedLibro.toString());
 
-        if(position != RecyclerView.NO_POSITION) {
-
-            Log.d("Libro", mainActivity.libros.get(position).toString());
-
-            i.putExtra("Libro", mainActivity.libros.get(position));
+            Intent i = new Intent(view.getContext(), LibroActivity.class);
+            i.putExtra("Libro", clickedLibro);
 
             view.getContext().startActivity(i);
         }

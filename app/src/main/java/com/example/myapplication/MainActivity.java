@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,9 +23,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements Handler.Callback {
+public class MainActivity extends AppCompatActivity implements Handler.Callback, SearchView.OnQueryTextListener {
 
-    List<Libro> libros;
+    public static List<Libro> libros;
+    private AdapterLibro adapterLibro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_bar);
+        SearchView sv = (SearchView) menuItem.getActionView();
+        sv.setOnQueryTextListener(this);
         return true;
     }
 
@@ -89,13 +95,28 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
             throw new RuntimeException(e);
         }
 
-        AdapterLibro adapterLibro = new AdapterLibro(this.libros, this);
+        this.adapterLibro = new AdapterLibro(this.libros, this);
         RecyclerView rv = findViewById(R.id.rvLibro);
         rv.setAdapter(adapterLibro);
 
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
 
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.d("onQueryTextSubmit", query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d("onQueryTextChange", newText);
+        if (adapterLibro != null) {
+            adapterLibro.getFilter().filter(newText);
+        }
         return false;
     }
 }

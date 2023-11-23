@@ -1,12 +1,13 @@
 package com.example.myapplication;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Comentario {
+public class Comentario implements Serializable {
 
     private String tituloLibro;
-    private String comentario;
-    private Integer puntaje;
+    private String descripcion;
+    private Float puntaje;
     private Date fecha;
 
     public Comentario() { }
@@ -19,19 +20,19 @@ public class Comentario {
         this.tituloLibro = tituloLibro;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setDescripcion(String comentario) {
+        this.descripcion = comentario;
     }
 
-    public Integer getPuntaje() {
+    public Float getPuntaje() {
         return puntaje;
     }
 
-    public void setPuntaje(Integer puntaje) {
+    public void setPuntaje(Float puntaje) {
         this.puntaje = puntaje;
     }
 
@@ -41,5 +42,15 @@ public class Comentario {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public String toString() {
+        return "Comentario{" +
+                "tituloLibro='" + tituloLibro + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", puntaje=" + puntaje +
+                ", fecha=" + fecha +
+                '}';
     }
 }

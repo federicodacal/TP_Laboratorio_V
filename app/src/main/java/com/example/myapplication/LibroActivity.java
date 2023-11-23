@@ -30,7 +30,7 @@ public class LibroActivity extends AppCompatActivity {
 
         Libro model = new Libro();
         LibroView view = new LibroView(this, model);
-        LibroController controller = new LibroController(view, model);
+        LibroController controller = new LibroController(view, model, this);
         view.setController(controller);
 
     }

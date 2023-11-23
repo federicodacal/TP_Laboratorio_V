@@ -24,6 +24,7 @@ public class LibroView {
         this.activity = activity;
         this.model = model;
         this.btn = activity.findViewById(R.id.btnGuardar);
+        this.controller = new LibroController(this, model, this.activity);
         this.edComentario = activity.findViewById(R.id.edComentario);
         this.rbar = activity.findViewById(R.id.rating);
         this.tvAutor = activity.findViewById(R.id.tvAutor);
@@ -33,6 +34,7 @@ public class LibroView {
 
     public void setController(LibroController controller) {
         this.controller = controller;
+        this.btn.setOnClickListener(this.controller);
     }
 
     public void cargarModelo() {
@@ -40,8 +42,30 @@ public class LibroView {
         this.model.setId(LibroActivity.libroSeleccionado.getId());
         this.model.setAutor(LibroActivity.libroSeleccionado.getAutor());
         this.model.setUrlImg(LibroActivity.libroSeleccionado.getUrlImg());
+
+        Comentario comentario = LibroActivity.libroSeleccionado.getComentario();
+        if (comentario != null) {
+            this.setPuntaje(comentario.getPuntaje());
+            this.setComentario(comentario.getDescripcion());
+        }
+
         this.mostrarModelo();
-        Log.d("En cargar modelo", this.model.getUrlImg());
+    }
+
+    public void setPuntaje(float puntaje) {
+        rbar.setRating(puntaje);
+    }
+
+    public float getPuntaje() {
+        return rbar.getRating();
+    }
+
+    public void setComentario(String comentario) {
+        edComentario.setText(comentario);
+    }
+
+    public String getComentario() {
+        return edComentario.getText().toString();
     }
 
     public void mostrarModelo() {
